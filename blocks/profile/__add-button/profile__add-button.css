@@ -4,4 +4,6 @@
     height: 50px;
     justify-self: flex-end;
     cursor: pointer;
+    background-color: transparent;
+    border: none;
 }
