@@ -12,69 +12,12 @@
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/profile/__bio/profile__bio.css);
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/elements/__list/elements__list.css);
+@import url(../blocks/elements/__item/elements__item.css);
+@import url(../blocks/elements/__image/elements__image.css);
+@import url(../blocks/elements/__title/elements__title.css);
+@import url(../blocks/elements/__name/elements__name.css);
+@import url(../blocks/elements/__like/elements__like.css);
 
 
-
-.elements {
-    max-width: 880px;
-    margin: 0 auto 66px;
-    padding: 0;
-}
-
-.elements__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 17px;
-    list-style: none;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.elements__item {
-    padding: 0;
-    margin: 0;
-    line-height: 0;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.elements__image {
-    max-width: 100%;
-    object-fit: cover;
-}
-
-.elements__title {
-    display: flex;
-    padding: 25px 15px 31px 21px;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.elements__name {
-    font-family: 'Inter', Arial, sans-serif;
-    font-style:  normal;
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 1.1;
-    text-rendering: optimizeLegibility;
-    text-decoration: none;
-    color: #000;
-    max-width: 190px;
-    margin: 0;
-    padding: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.elements__like {
-    background-image: url(../images/like.svg);
-    width: 22px;
-    height: 19px;
-    cursor: pointer;
-}
