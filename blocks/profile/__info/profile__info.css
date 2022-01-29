@@ -3,3 +3,10 @@
     flex-direction: column;
     margin: 0 auto 0 0;
 }
+
+@media screen and (max-width: 760px) {
+    .profile__info {
+        align-items: center;
+        margin: 0 auto 0;
+    }
+}

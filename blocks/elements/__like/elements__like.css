@@ -4,6 +4,8 @@
     height: 19px;
     cursor: pointer;
     background-color: transparent;
+    border: none;
+    padding: 0;
     opacity: 1;
     transition: opacity ease-in-out .2s;
 }
