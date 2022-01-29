@@ -5,7 +5,18 @@
     position: absolute;
     top: -40px;
     right: -40px;
+    padding: 0;
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+@media screen and (max-width: 760px) {
+    .popup__close-button {
+        background-image: url(../../../images/close-button-small.svg);
+        width: 20px;
+        height: 20px;
+        top: -36px;
+        right: 0;
+    }
 }

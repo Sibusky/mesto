@@ -9,5 +9,12 @@
     color: #000;
     width: 100%;
     padding: 0;
-    margin: 0 0 54px;;
+    margin: 0 0 54px;
+}
+
+@media screen and (max-width: 760px) {
+    .popup__title {
+        font-size: 18px;
+        margin: 0 0 75px;
+    }
 }

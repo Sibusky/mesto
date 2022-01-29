@@ -13,3 +13,10 @@
     border: none;
     border-bottom: rgba(0, 0, 0, 0.2) 1px solid;
 }
+
+@media screen and (max-width: 760px) {
+    .popup__bio {
+        padding: 0 0 13px;
+        margin: 0 0 45px;
+    }
+}
