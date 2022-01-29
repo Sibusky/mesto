@@ -21,5 +21,17 @@ profilePopupEdit.addEventListener('click', function(event) {
     }
 })
 
+let formElement = document.querySelector('.popup__container')  
+let nameInput = document.querySelector('.popup__name')   
+let bioInput = document.querySelector('.popup__bio')
+let profileName = document.querySelector('.profile__name')
+let profileBio = document.querySelector('.profile__bio')
 
-console.log(profileEditButton)
+function formSubmitHandler (evt) {
+    evt.preventDefault(); 
+    profileName.textContent = nameInput.value;
+    profileBio.textContent = bioInput.value;
+    closeProfilePopupEdit();
+}
+
+formElement.addEventListener('submit', formSubmitHandler);
