@@ -3,7 +3,7 @@ const profilePopupEdit = document.querySelector('.popup')
 const profilePopupEditClose = document.querySelector('.popup__close-button')
 
 
-function openProfilePopupEdit(event) {
+function openProfilePopupEdit() {
     profilePopupEdit.classList.add('popup_opened')
 }
 
