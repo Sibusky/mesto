@@ -21,6 +21,7 @@ profilePopupEdit.addEventListener('click', function(event) {
     }
 })
 
+
 let formElement = document.querySelector('.popup__container')  
 let nameInput = document.querySelector('.popup__name')   
 let bioInput = document.querySelector('.popup__bio')
