@@ -8,5 +8,6 @@
     .profile__info {
         align-items: center;
         margin: 0 auto 0;
+        max-width: 282px;
     }
 }

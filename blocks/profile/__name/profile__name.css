@@ -7,10 +7,10 @@
     text-rendering: optimizeLegibility;
     text-decoration: none;
     color: #FFFFFF;
-    max-width: 294px;/* Немного увеличил max-width на случай, если имя будет длиннее, чтобы многоточие - */
-    margin: 0 18px 0 0;/* - появлялось позже. */
-    text-overflow: ellipsis;/* Зачем это нужно для имени? Считаю, что лучше бы был просто перенос - */
-    white-space: nowrap;/* - на другую строку, чем сокращение */
+    max-width: 360px;
+    margin: 0 18px 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
 }
 
@@ -19,5 +19,6 @@
         font-size: 27px;
         line-height: 1;
         margin: 0 10px 0 0;
+        max-width: 250px;
     }
 }
