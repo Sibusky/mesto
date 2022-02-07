@@ -1,9 +1,9 @@
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profilePopupEdit = document.querySelector('.popup');
 const profilePopupEditClose = document.querySelector('.popup__close-button');
-const formElement = document.querySelector('.popup__container');
-const nameInput = document.querySelector('.popup__name');
-const bioInput = document.querySelector('.popup__bio');
+const formElement = document.querySelector('.popup__form');
+const nameInput = document.querySelector('.popup__input_type_name');
+const bioInput = document.querySelector('.popup__input_type_bio');
 const profileName = document.querySelector('.profile__name');
 const profileBio = document.querySelector('.profile__bio');
 
