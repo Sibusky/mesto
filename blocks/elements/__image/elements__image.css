@@ -1,11 +1,19 @@
 .elements__image {
     width: 100%;
-    max-height: 282px;
+    height: 282px;
     object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 @media screen and (max-width: 1020px) {
     .elements__image {
-        max-height: 351.5px;
+        height: 351.5px;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .elements__image {
+        height: 282px;
     }
 }

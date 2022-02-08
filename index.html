@@ -21,7 +21,7 @@
                 <div class="profile__info">
                     <div class="profile__title">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button button" type="button"></button>
+                        <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
                     </div>
                     <p class="profile__bio">Исследователь океана</p>
                 </div>
@@ -82,15 +82,17 @@
 
         <div class="popup">
             <div class="popup__container">
-                <form class="popup__form" name="popupform">
+                <form class="popup__form" name="profile-edit-form">
                     <h2 class="popup__title">Редактировать профиль</h2>
                     <fieldset class="popup__inputs">
                         <ul class="popup__inputs-list">
                             <li class="popup__inputs-list-item">
-                                <input class="popup__input popup__input_type_name" type="text" placeholder="Имя" name="profilename" value="">
+                                <input class="popup__input popup__input_type_name" type="text" placeholder="Имя"
+                                    name="profilename" value="">
                             </li>
                             <li class="popup__inputs-list-item">
-                                <input class="popup__input popup__input_type_bio" type="text" placeholder="О себе" name="bio" value="">
+                                <input class="popup__input popup__input_type_bio" type="text" placeholder="О себе"
+                                    name="bio" value="">
                             </li>
                         </ul>
                         <button class="popup__save-button" type="submit">Сохранить</button>
