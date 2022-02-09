@@ -12,8 +12,8 @@ const initialCards = [
       link: 'https://images.unsplash.com/photo-1612719734820-81784b7e6573?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
     },
     {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+      name: 'Судак',
+      link: 'https://images.unsplash.com/photo-1565342403875-07a8dc5ed13c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80'
     },
     {
       name: 'Иваново',
@@ -21,15 +21,15 @@ const initialCards = [
     },
     {
       name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+      link: 'https://images.unsplash.com/photo-1537690381844-9da2b0b69640?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2129&q=80'
     },
     {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+      name: 'Уральские горы',
+      link: 'https://images.unsplash.com/photo-1504609732-6c1d0f28bf16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2129&q=80'
     },
     {
       name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+      link: 'https://images.unsplash.com/photo-1548130729-90d4d11826f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'
     }
   ]; 
 
@@ -57,17 +57,42 @@ function closeProfilePopupEdit() {
 
 
 // Функция отправки формы:
-// preventDefault() - убирает дефолтные действия движка (в данном случае - обновление страницы),
-// дальше - вставляем данные формы в профиль,
-// в конце - закрываем окно редактирования (popup).
 function formSubmitHandler (evt) {
-    evt.preventDefault(); 
-    profileName.textContent = nameInput.value;
-    profileBio.textContent = bioInput.value;
-    closeProfilePopupEdit();
+    evt.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+    profileName.textContent = nameInput.value; // Вставляем имя в профиль
+    profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
+    closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
 }
+
+
+const templateCards = document.querySelector('.elements__template').content
+const cardsList = document.querySelector('.elements__list')
+
+
+// Функция добавления карточек по умолчанию
+function render() {
+    initialCards.forEach(renderCard);
+}
+
+// Функция добавления отдельной карточки
+function renderCard(card) {
+    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    newCard.querySelector('.elements__name').textContent = card.name // Присваиваю имя карточке
+    newCard.querySelector('.elements__image').src = card.link // Присваиваю ссылку карточке
+
+    cardsList.prepend(newCard) // Добавляю карточку в начало списка
+}
+
+render()
+
+
+
+
+
+
 
 // Добавляю слушателей событий
 profileEditButton.addEventListener('click', openProfilePopupEdit);
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit);
 formElement.addEventListener('submit', formSubmitHandler);
+
