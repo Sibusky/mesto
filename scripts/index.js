@@ -69,7 +69,7 @@ function closeProfilePopupEdit() {
 
 
 // Функция отправки формы:
-function formSubmitHandler (evt) {
+function formProfileSubmitHandler(evt) {
     evt.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
@@ -81,9 +81,11 @@ function render() {
     initialCards.forEach(renderCard);
 }
 
+let newCard
+
 // Функция добавления отдельной карточки
 function renderCard(card) {
-    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    newCard = templateCards.cloneNode(true); // Клонирую содержимое template
     newCard.querySelector('.elements__name').textContent = card.name // Присваиваю имя карточке
     newCard.querySelector('.elements__image').alt = card.name // Присваиваю значение атрибута 'alt'
     newCard.querySelector('.elements__image').src = card.link // Присваиваю ссылку карточке
@@ -95,15 +97,26 @@ function renderCard(card) {
 render()
 
 // Функция открытия окна попапа добавления карточек
-function openAddCardPopup () {
+function openAddCardPopup() {
     cardsPopup.classList.add('popup_opened');
 };
 
 // Функция закрытия попапа добавления карточек
-function closeAddCardPopup () {
+function closeAddCardPopup() {
   cardsPopup.classList.remove('popup_opened');
 };
 
+function formCardsSubmitHandler(evt) {
+  evt.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+  newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+  newCard.querySelector('.elements__name').textContent = placeName.value 
+  newCard.querySelector('.elements__image').alt = placeName.value
+  newCard.querySelector('.elements__image').src = picLink.value
+  
+  cardsList.prepend(newCard)
+
+  closeAddCardPopup() // Закрываем окно редактирования
+}
 
 
 
@@ -112,10 +125,13 @@ function closeAddCardPopup () {
 // Добавляю слушателей событий
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
-formProfileEdit.addEventListener('submit', formSubmitHandler); //Слушатель событий отправки формы данных профиля
+formProfileEdit.addEventListener('submit', formProfileSubmitHandler); //Слушатель событий отправки формы данных профиля
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
+formCarsdAdd.addEventListener('submit', formCardsSubmitHandler) // Слушатель событий отправки формы для добавления карточек
 
 
 
+
+// Сделать функцию под слушатели событий???
