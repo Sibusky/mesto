@@ -46,7 +46,8 @@ const initialCards = [
 
 let newCard; // Объявляю переменную новой карточки
 
-const deleteCardButton = document.querySelector('.elements__delete-card-button') // Кнопка удаления карточки
+const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
+const closeImagePopup = document.querySelector('.popup__close-button_place_image'); // Кнопка закрытия попапа с изображнием
 
 // Функция открытия попап редактирования профиля. Присваивает класс 'popup_opened' со свойством display: flex,
 // и вставляет данные из профиля на странице в попап редактирования профиля.
@@ -134,8 +135,18 @@ function deleteCard(event) {
 
 // Функция добавления лайка
 function addLike(event) {
-  event.target.closest('.elements__like').classList.toggle('elements__like_active')
+    event.target.closest('.elements__like').classList.toggle('elements__like_active')
 };
+
+// Функция открытия попапа с изображением
+function openImage(event) {
+    openImagePopup.classList.add('popup_opened');
+};
+
+// Функция закрытия попапа с изображением
+function closeImage() {
+    openImagePopup.classList.remove('popup_opened');
+}
 
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
@@ -146,11 +157,18 @@ cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
 formCarsdAdd.addEventListener('submit', formCardsSubmit) // Слушатель событий отправки формы для добавления карточек
 
+closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
+
+
+
 // Добавляю слушателей событий для лайков и удаления карточек
 function addListeners(el) {
   el.querySelector('.elements__like').addEventListener('click', addLike);
   el.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard);
+  el.querySelector('.elements__image').addEventListener('click', openImage)
 };
+
+
 
 
 /*

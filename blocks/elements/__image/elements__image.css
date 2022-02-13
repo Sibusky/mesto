@@ -4,6 +4,7 @@
     object-fit: cover;
     background-position: center;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1020px) {
