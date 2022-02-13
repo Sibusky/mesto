@@ -44,6 +44,8 @@ const initialCards = [
     }
   ]; 
 
+let newCard; // Объявляю переменную новой карточки
+
 // Функция открытия попап редактирования профиля. Присваивает класс 'popup_opened' со свойством display: flex,
 // и вставляет данные из профиля на странице в попап редактирования профиля.
 function openProfilePopupEdit() {
@@ -68,33 +70,39 @@ function closeProfilePopupEdit() {
 }); */
 
 
-// Функция отправки формы:
-function formProfileSubmitHandler(evt) {
-    evt.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+// Функция отправки формы профиля
+function formProfileSubmitHandler(event) {
+    event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
     closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
-}
+};
 
-// Функция добавления карточек по умолчанию
-function render() {
-    initialCards.forEach(renderCard);
-}
-
-let newCard
-
-// Функция добавления отдельной карточки
+// Функция добавления отдельной карточки "из коробки"
 function renderCard(card) {
     newCard = templateCards.cloneNode(true); // Клонирую содержимое template
-    newCard.querySelector('.elements__name').textContent = card.name // Присваиваю имя карточке
-    newCard.querySelector('.elements__image').alt = card.name // Присваиваю значение атрибута 'alt'
-    newCard.querySelector('.elements__image').src = card.link // Присваиваю ссылку карточке
+    newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
+    newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
+    newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
+   
+    addLike(newCard); // Добавляю функцию лайка
 
+    cardsList.append(newCard) // Добавляю карточку "из коробки" в конец списка
+};
 
-    cardsList.prepend(newCard) // Добавляю карточку в начало списка
-}
+// Функция добавления лайка
+function addLike(el) {
+  el.querySelector('.elements__like').addEventListener('click', function(event) {
+    event.target.closest('.elements__like').classList.toggle('elements__like_active')
+  })
+};
 
-render()
+// Функция добавления всех карточек "из коробки"
+function renderDefault() {
+  initialCards.forEach(renderCard);
+};
+
+renderDefault(); // Вызываю функцию добавления всех карточек "из коробки"
 
 // Функция открытия окна попапа добавления карточек
 function openAddCardPopup() {
@@ -106,17 +114,22 @@ function closeAddCardPopup() {
   cardsPopup.classList.remove('popup_opened');
 };
 
-function formCardsSubmitHandler(evt) {
-  evt.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+// Функция добавления новых карточек
+function formCardsSubmit(event) {
+  event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
   newCard = templateCards.cloneNode(true); // Клонирую содержимое template
-  newCard.querySelector('.elements__name').textContent = placeName.value 
-  newCard.querySelector('.elements__image').alt = placeName.value
-  newCard.querySelector('.elements__image').src = picLink.value
-  
-  cardsList.prepend(newCard)
+  newCard.querySelector('.elements__name').textContent = placeName.value // Вставляю имя карточки из input
+  newCard.querySelector('.elements__image').alt = placeName.value // Вставляю значение тега 'alt'
+  newCard.querySelector('.elements__image').src = picLink.value // Вставляю ссылку на изображение
 
-  closeAddCardPopup() // Закрываем окно редактирования
+  addLike(newCard); //Добавляю функцию лайка
+  
+  cardsList.prepend(newCard) // Вставляю карточку в начало списка
+
+  closeAddCardPopup() // Закрываю окно редактирования
 }
+
+
 
 
 
@@ -129,7 +142,8 @@ formProfileEdit.addEventListener('submit', formProfileSubmitHandler); //Слуш
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
-formCarsdAdd.addEventListener('submit', formCardsSubmitHandler) // Слушатель событий отправки формы для добавления карточек
+formCarsdAdd.addEventListener('submit', formCardsSubmit) // Слушатель событий отправки формы для добавления карточек
+
 
 
 
