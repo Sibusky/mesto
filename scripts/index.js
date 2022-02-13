@@ -46,6 +46,8 @@ const initialCards = [
 
 let newCard; // Объявляю переменную новой карточки
 
+const deleteCardButton = document.querySelector('.elements__delete-card-button') // Кнопка удаления карточки
+
 // Функция открытия попап редактирования профиля. Присваивает класс 'popup_opened' со свойством display: flex,
 // и вставляет данные из профиля на странице в попап редактирования профиля.
 function openProfilePopupEdit() {
@@ -85,21 +87,16 @@ function renderCard(card) {
     newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
     newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
    
-    addLike(newCard); // Добавляю функцию лайка
+    addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
 
     cardsList.append(newCard) // Добавляю карточку "из коробки" в конец списка
 };
 
-// Функция добавления лайка
-function addLike(el) {
-  el.querySelector('.elements__like').addEventListener('click', function(event) {
-    event.target.closest('.elements__like').classList.toggle('elements__like_active')
-  })
-};
+
 
 // Функция добавления всех карточек "из коробки"
 function renderDefault() {
-  initialCards.forEach(renderCard);
+    initialCards.forEach(renderCard);
 };
 
 renderDefault(); // Вызываю функцию добавления всех карточек "из коробки"
@@ -111,31 +108,36 @@ function openAddCardPopup() {
 
 // Функция закрытия попапа добавления карточек
 function closeAddCardPopup() {
-  cardsPopup.classList.remove('popup_opened');
+    cardsPopup.classList.remove('popup_opened');
 };
 
 // Функция добавления новых карточек
 function formCardsSubmit(event) {
-  event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
-  newCard = templateCards.cloneNode(true); // Клонирую содержимое template
-  newCard.querySelector('.elements__name').textContent = placeName.value // Вставляю имя карточки из input
-  newCard.querySelector('.elements__image').alt = placeName.value // Вставляю значение тега 'alt'
-  newCard.querySelector('.elements__image').src = picLink.value // Вставляю ссылку на изображение
+    event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+    newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
+    newCard.querySelector('.elements__image').alt = placeName.value; // Вставляю значение тега 'alt'
+    newCard.querySelector('.elements__image').src = picLink.value; // Вставляю ссылку на изображение
 
-  addLike(newCard); //Добавляю функцию лайка
+    addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
   
-  cardsList.prepend(newCard) // Вставляю карточку в начало списка
+    cardsList.prepend(newCard); // Вставляю карточку в начало списка
 
-  closeAddCardPopup() // Закрываю окно редактирования
-}
-
-
+    closeAddCardPopup(); // Закрываю окно редактирования
+};
 
 
+// Функция удаления карточки
+function deleteCard(event) {
+    event.target.closest('.elements__item').remove();
+};
 
+// Функция добавления лайка
+function addLike(event) {
+  event.target.closest('.elements__like').classList.toggle('elements__like_active')
+};
 
-
-// Добавляю слушателей событий
+// Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
 formProfileEdit.addEventListener('submit', formProfileSubmitHandler); //Слушатель событий отправки формы данных профиля
@@ -144,8 +146,19 @@ cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
 formCarsdAdd.addEventListener('submit', formCardsSubmit) // Слушатель событий отправки формы для добавления карточек
 
+// Добавляю слушателей событий для лайков и удаления карточек
+function addListeners(el) {
+  el.querySelector('.elements__like').addEventListener('click', addLike);
+  el.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard);
+};
 
 
+/*
 
+document.querySelector('.elements__delete-card-button').addEventListener('click', function() {
+  console.log('clicked')
+})
+
+*/
 
 // Сделать функцию под слушатели событий???
