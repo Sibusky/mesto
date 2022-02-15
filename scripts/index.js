@@ -48,6 +48,8 @@ let newCard; // Объявляю переменную новой карточк�
 
 const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
 const closeImagePopup = document.querySelector('.popup__close-button_place_image'); // Кнопка закрытия попапа с изображнием
+const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
+const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
 // Функция открытия попап редактирования профиля. Присваивает класс 'popup_opened' со свойством display: flex,
 // и вставляет данные из профиля на странице в попап редактирования профиля.
@@ -56,7 +58,6 @@ function openProfilePopupEdit() {
     nameInput.value = profileName.textContent;
     bioInput.value = profileBio.textContent;
 };
-
 
 // Функция закрытия попапа редактирования профиля; удаляет класс 'popup_opened'.
 function closeProfilePopupEdit() {
@@ -71,7 +72,6 @@ function closeProfilePopupEdit() {
         closeProfilePopupEdit()
     }
 }); */
-
 
 // Функция отправки формы профиля
 function formProfileSubmitHandler(event) {
@@ -121,9 +121,7 @@ function formCardsSubmit(event) {
     newCard.querySelector('.elements__image').src = picLink.value; // Вставляю ссылку на изображение
 
     addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
-  
     cardsList.prepend(newCard); // Вставляю карточку в начало списка
-
     closeAddCardPopup(); // Закрываю окно редактирования
 };
 
@@ -141,6 +139,9 @@ function addLike(event) {
 // Функция открытия попапа с изображением
 function openImage(event) {
     openImagePopup.classList.add('popup_opened');
+    imagePopup.src = event.target.closest('.elements__image').src
+    imagePopup.alt = event.target.closest('.elements__image').alt
+    imageTitle.textContent = event.target.closest('.elements__image').alt
 };
 
 // Функция закрытия попапа с изображением
