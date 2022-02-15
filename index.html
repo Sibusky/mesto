@@ -21,7 +21,8 @@
                 <div class="profile__info">
                     <div class="profile__title">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
+                        <button class="profile__edit-button button" type="button"
+                            aria-label="Редактировать профиль"></button>
                     </div>
                     <p class="profile__bio">Исследователь океана</p>
                 </div>
@@ -30,7 +31,7 @@
 
             <section class="elements">
                 <ul class="elements__list">
-                    
+
                 </ul>
             </section>
         </main>
@@ -54,7 +55,8 @@
                                     name="bio" value="">
                             </li>
                         </ul>
-                        <button class="popup__save-button" type="submit">Сохранить</button>
+                        <button class="popup__save-button popup__save-button_place_profile"
+                            type="submit">Сохранить</button>
                     </fieldset>
                 </form>
                 <button class="popup__close-button popup__close-button_place_profile button" type="button"></button>
@@ -68,12 +70,12 @@
                     <fieldset class="popup__inputs">
                         <ul class="popup__inputs-list">
                             <li class="popup__inputs-list-item">
-                                <input class="popup__input popup__input_type_place-name" type="text" placeholder="Название"
-                                    name="placename" value="">
+                                <input class="popup__input popup__input_type_place-name" type="text"
+                                    placeholder="Название" name="placename" value="">
                             </li>
                             <li class="popup__inputs-list-item">
-                                <input class="popup__input popup__input_type_link" type="text" placeholder="Ссылка на картинку"
-                                    name="picturelink" value="">
+                                <input class="popup__input popup__input_type_link" type="text"
+                                    placeholder="Ссылка на картинку" name="picturelink" value="">
                             </li>
                         </ul>
                         <button class="popup__save-button popup__save-button_place_card" type="submit">Создать</button>
@@ -84,11 +86,11 @@
         </div>
 
         <div class="popup popup_place_image">
-            <div class="popup__image-container">
-                <img class="popup__image" alt="Название картинки" src="https://images.unsplash.com/photo-1537690381844-9da2b0b69640?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2129&q=80">
+            <figure class="popup__image-container">
                 <figcaption class="popup__image-title">Название картинки</figcaption>
+                <img class="popup__image" alt="" src="">
                 <button class="popup__close-button popup__close-button_place_image button" type="button"></button>
-            </div>
+            </figure>
         </div>
 
     </div>

@@ -21,18 +21,31 @@
 @import url(../blocks/elements/__like/elements__like.css);
 @import url(../blocks/elements/__like/_active/elements__like_active.css);
 @import url(../blocks/elements/__delete-card-button/elements__delete-card-button.css);
+@import url(../blocks/elements/__template/elements__template.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__text/footer__text.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/_place/popup_place_profile.css);
+@import url(../blocks/popup/_place/popup_place_cards.css);
+@import url(../blocks/popup/_place/popup_place_image.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__form/popup__form.css);
+@import url(../blocks/popup/__form/_place/popup__form_place_card.css);
+@import url(../blocks/popup/__form/_place/popup__form_place_profile.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__input/_type/popup__input_type_bio.css);
 @import url(../blocks/popup/__input/_type/popup__input_type_name.css);
+@import url(../blocks/popup/__input/_type/popup__input_type_link.css);
+@import url(../blocks/popup/__input/_type/popup__input_type_place-name.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
+@import url(../blocks/popup/__save-button/_place/popup__save-button_place_card.css);
+@import url(../blocks/popup/__save-button/_place/popup__save-button_place_profile.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/__close-button/_place/popup__close-button_place_cards\ button.css);
+@import url(../blocks/popup/__close-button/_place/popup__close-button_place_image.css);
+@import url(../blocks/popup/__close-button/_place/popup__close-button_place_profile.css);
 @import url(../blocks/popup/__inputs/popup__inputs.css);
 @import url(../blocks/popup/__inputs-list/popup__inputs-list.css);
 @import url(../blocks/popup/__inputs-list-item/popup__inputs-list-item.css);
@@ -40,16 +53,3 @@
 @import url(../blocks/popup/__image-container/popup__image-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/button/button.css);
-
-
-
-
-/* 
-
-
-popup__place_profile
-popup__place_cards 
-popup__form_place_profile
-popup__form_place_card
-
-*/
