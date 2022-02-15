@@ -42,7 +42,7 @@ const initialCards = [
       name: 'Байкал',
       link: 'https://images.unsplash.com/photo-1548130729-90d4d11826f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'
     }
-  ]; 
+]; 
 
 let newCard; // Объявляю переменную новой карточки
 
@@ -51,8 +51,8 @@ const closeImagePopup = document.querySelector('.popup__close-button_place_image
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
-// Функция открытия попап редактирования профиля. Присваивает класс 'popup_opened' со свойством display: flex,
-// и вставляет данные из профиля на странице в попап редактирования профиля.
+// Функция открытия попап редактирования профиля. 
+// Присваивает класс 'popup_opened' и вставляет данные из профиля на странице в попап редактирования профиля.
 function openProfilePopupEdit() {
     profilePopupEdit.classList.add('popup_opened');
     nameInput.value = profileName.textContent;
@@ -89,11 +89,8 @@ function renderCard(card) {
     newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
    
     addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
-
     cardsList.append(newCard) // Добавляю карточку "из коробки" в конец списка
 };
-
-
 
 // Функция добавления всех карточек "из коробки"
 function renderDefault() {
@@ -138,10 +135,10 @@ function addLike(event) {
 
 // Функция открытия попапа с изображением
 function openImage(event) {
-    openImagePopup.classList.add('popup_opened');
-    imagePopup.src = event.target.closest('.elements__image').src
-    imagePopup.alt = event.target.closest('.elements__image').alt
-    imageTitle.textContent = event.target.closest('.elements__image').alt
+    openImagePopup.classList.add('popup_opened'); // Открываю попап
+    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
+    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
+    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
 };
 
 // Функция закрытия попапа с изображением
@@ -160,24 +157,9 @@ formCarsdAdd.addEventListener('submit', formCardsSubmit) // Слушатель �
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
 
-
-
 // Добавляю слушателей событий для лайков и удаления карточек
 function addListeners(el) {
   el.querySelector('.elements__like').addEventListener('click', addLike);
   el.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard);
   el.querySelector('.elements__image').addEventListener('click', openImage)
 };
-
-
-
-
-/*
-
-document.querySelector('.elements__delete-card-button').addEventListener('click', function() {
-  console.log('clicked')
-})
-
-*/
-
-// Сделать функцию под слушатели событий???
