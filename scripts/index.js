@@ -7,10 +7,10 @@ const bioInput = document.querySelector('.popup__input_type_bio'); // Ввод �
 const profileName = document.querySelector('.profile__name'); // Имя профиля на самой странице
 const profileBio = document.querySelector('.profile__bio'); // Профессия профиля на самой странице
 
-const cardsAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления фотографий
-const cardsPopup = document.querySelector('.popup_place_cards'); // Попап добавления фотографий
-const cardsPopupCloseButton = document.querySelector('.popup__close-button_place_cards'); //Кнопка закрытия попапа добавления фотографий
-const formCarsdAdd = document.querySelector('.popup__form_place_card'); // Форма добавления фотографии
+const cardsAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточек
+const cardsPopup = document.querySelector('.popup_place_cards'); // Попап добавления карточек
+const cardsPopupCloseButton = document.querySelector('.popup__close-button_place_cards'); //Кнопка закрытия попапа добавления карточек
+const formCarsdAdd = document.querySelector('.popup__form_place_card'); // Форма добавления карточек
 const placeName = document.querySelector('.popup__input_type_place-name'); // Ввод данных имени места
 const picLink = document.querySelector('.popup__input_type_link'); // Ввод данных ссылки на картинку
 
@@ -49,17 +49,26 @@ const closeImagePopup = document.querySelector('.popup__close-button_place_image
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
-// Функция открытия попап редактирования профиля. 
-// Присваивает класс 'popup_opened' и вставляет данные из профиля на странице в попап редактирования профиля.
+// Функция открытия окна попапа
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+}
+
+// Функция закрытия окна попапа
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
+}
+
+// Функция открытия попапа редактирования профиля
 function openProfilePopupEdit() {
-    profilePopupEdit.classList.add('popup_opened');
+    openPopup(profilePopupEdit);
     nameInput.value = profileName.textContent;
     bioInput.value = profileBio.textContent;
 };
 
-// Функция закрытия попапа редактирования профиля; удаляет класс 'popup_opened'.
+// Функция закрытия попапа редактирования профиля
 function closeProfilePopupEdit() {
-    profilePopupEdit.classList.remove('popup_opened');
+    closePopup(profilePopupEdit);
 };
 
 // Функция закрытия popup при клике вне окна. Работает не вовсем корректно:
@@ -72,7 +81,7 @@ function closeProfilePopupEdit() {
 }); */
 
 // Функция отправки формы профиля
-function formProfileSubmitHandler(event) {
+function submitProfile(event) {
     event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
@@ -99,16 +108,16 @@ renderDefault(); // Вызываю функцию добавления всех 
 
 // Функция открытия окна попапа добавления карточек
 function openAddCardPopup() {
-    cardsPopup.classList.add('popup_opened');
+    openPopup(cardsPopup);
 };
 
 // Функция закрытия попапа добавления карточек
 function closeAddCardPopup() {
-    cardsPopup.classList.remove('popup_opened');
+    closePopup(cardsPopup);
 };
 
 // Функция добавления новых карточек
-function formCardsSubmit(event) {
+function addCard(event) {
     event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
     const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
     newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
@@ -133,7 +142,7 @@ function addLike(event) {
 
 // Функция открытия попапа с изображением
 function openImage(event) {
-    openImagePopup.classList.add('popup_opened'); // Открываю попап
+    openPopup(openImagePopup); // Открываю попап
     imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
     imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
     imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
@@ -147,11 +156,11 @@ function closeImage() {
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
-formProfileEdit.addEventListener('submit', formProfileSubmitHandler); //Слушатель событий отправки формы данных профиля
+formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
-formCarsdAdd.addEventListener('submit', formCardsSubmit) // Слушатель событий отправки формы для добавления карточек
+formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
 
