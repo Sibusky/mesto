@@ -44,8 +44,6 @@ const initialCards = [
     }
 ]; 
 
-let newCard; // Объявляю переменную новой карточки
-
 const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
 const closeImagePopup = document.querySelector('.popup__close-button_place_image'); // Кнопка закрытия попапа с изображнием
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
@@ -83,7 +81,7 @@ function formProfileSubmitHandler(event) {
 
 // Функция добавления отдельной карточки "из коробки"
 function renderCard(card) {
-    newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
     newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
     newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
     newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
@@ -112,7 +110,7 @@ function closeAddCardPopup() {
 // Функция добавления новых карточек
 function formCardsSubmit(event) {
     event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
-    newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
     newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
     newCard.querySelector('.elements__image').alt = placeName.value; // Вставляю значение тега 'alt'
     newCard.querySelector('.elements__image').src = picLink.value; // Вставляю ссылку на изображение
