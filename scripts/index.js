@@ -88,6 +88,75 @@ function submitProfile(event) {
     closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
 };
 
+
+
+// Функция добавления лайка
+function addLike(event) {
+    event.target.closest('.elements__like').classList.toggle('elements__like_active')
+};
+
+
+// Функция удаления карточки
+function deleteCard(event) {
+    event.target.closest('.elements__item').remove();
+};
+
+// Функция открытия попапа с изображением
+function openImage(event) {
+    openPopup(openImagePopup); // Открываю попап
+    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
+    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
+    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
+};
+
+
+
+function createCard() {
+    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    newCard.querySelector('.elements__like').addEventListener('click', addLike); // Слушатель событий на добавление лайка
+    newCard.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard); // Слушатель событий на удаление карточки
+    newCard.querySelector('.elements__image').addEventListener('click', openImage); // Слушатель событий на открытие изображения
+
+    return newCard;
+}
+
+//cardsList.prepend(createCard());
+
+function renderDefaultCard(card) {
+    cardsList.prepend(createCard()); // Добавляю карточку "из коробки"
+    document.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
+    document.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
+    document.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
+}
+
+function renderDefaultCards() {
+    initialCards.forEach(renderDefaultCard);
+
+}
+
+renderDefaultCards();
+
+
+
+
+
+
+
+/*
+
+function renderDefaultCards(card) {
+    initialCards.forEach(createCard(newCard));
+    cardsList.append(newCard)
+}
+
+
+renderDefaultCards();
+
+*/
+
+
+/*
+
 // Функция добавления отдельной карточки "из коробки"
 function renderCard(card) {
     const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
@@ -164,9 +233,4 @@ formCarsdAdd.addEventListener('submit', addCard) // Слушатель собы�
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
 
-// Добавляю слушателей событий для лайков и удаления карточек
-function addListeners(el) {
-  el.querySelector('.elements__like').addEventListener('click', addLike);
-  el.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard);
-  el.querySelector('.elements__image').addEventListener('click', openImage)
-};
+*/
