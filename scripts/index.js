@@ -74,6 +74,7 @@ function closeProfilePopupEdit() {
 // Функция закрытия popup при клике вне окна. Работает не вовсем корректно:
 // при нажатии в области окна, а отпускании вне, окно закроется,
 // что может привести к ложным закрытиям окна при выделении текста в input
+// Чтобы работало корректно, нужно использовать событие mousedown вместо click
 /* profilePopupEdit.addEventListener('click', function(event) {
     if(event.target === event.currentTarget) {
         closeProfilePopupEdit()
@@ -99,9 +100,13 @@ function deleteCard(event) {
 };
 
 // Функция создания карточки
-function createCard() {
+function createCard(card) {
     const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
-    
+
+    newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
+    newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
+    newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
+
     newCard.querySelector('.elements__like').addEventListener('click', addLike); // Слушатель событий на добавление лайка
     newCard.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard); // Слушатель событий на удаление карточки
     newCard.querySelector('.elements__image').addEventListener('click', openImage); // Слушатель событий на открытие изображения
@@ -111,13 +116,7 @@ function createCard() {
 
 // Функция добавления карточки "из коробки"
 function addDefaultCard(card) {
-    const defaultCard = createCard()
-    
-    defaultCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
-    defaultCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
-    defaultCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
-    
-    cardsList.append(defaultCard); // Добавляю карточку "из коробки" в конец списка
+    cardsList.append(createCard(card)); // Добавляю карточку "из коробки" в конец списка
 };
 
 // Функция добавления всех карточек "из коробки" на страницу
@@ -141,7 +140,7 @@ function closeAddCardPopup() {
 function addCard(event) {
     event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
     
-    const newCard = createCard(); // Создаю новую карточку
+    const newCard = createCard(event); // Создаю новую карточку
     
     newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
     newCard.querySelector('.elements__image').alt = placeName.value; // Вставляю значение тега 'alt'
@@ -166,7 +165,7 @@ function openImage(event) {
 // Функция закрытия попапа с изображением
 function closeImage() {
     openImagePopup.classList.remove('popup_opened');
-}
+};
 
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
