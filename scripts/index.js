@@ -52,12 +52,12 @@ const imageTitle = document.querySelector('.popup__image-title'); // Назва�
 // Функция открытия окна попапа
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-}
+};
 
 // Функция закрытия окна попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-}
+};
 
 // Функция открытия попапа редактирования профиля
 function openProfilePopupEdit() {
@@ -82,98 +82,50 @@ function closeProfilePopupEdit() {
 
 // Функция отправки формы профиля
 function submitProfile(event) {
-    event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
+    event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
     closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
 };
-
-
 
 // Функция добавления лайка
 function addLike(event) {
     event.target.closest('.elements__like').classList.toggle('elements__like_active')
 };
 
-
 // Функция удаления карточки
 function deleteCard(event) {
     event.target.closest('.elements__item').remove();
 };
 
-// Функция открытия попапа с изображением
-function openImage(event) {
-    openPopup(openImagePopup); // Открываю попап
-    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
-    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
-    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
-};
-
-
-
+// Функция создания карточки
 function createCard() {
     const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    
     newCard.querySelector('.elements__like').addEventListener('click', addLike); // Слушатель событий на добавление лайка
     newCard.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard); // Слушатель событий на удаление карточки
     newCard.querySelector('.elements__image').addEventListener('click', openImage); // Слушатель событий на открытие изображения
 
-    return newCard;
-}
-
-//cardsList.prepend(createCard());
-
-function renderDefaultCard(card) {
-    cardsList.prepend(createCard()); // Добавляю карточку "из коробки"
-    document.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
-    document.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
-    document.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
-}
-
-function renderDefaultCards() {
-    initialCards.forEach(renderDefaultCard);
-
-}
-
-renderDefaultCards();
-
-
-
-
-
-
-
-/*
-
-function renderDefaultCards(card) {
-    initialCards.forEach(createCard(newCard));
-    cardsList.append(newCard)
-}
-
-
-renderDefaultCards();
-
-*/
-
-
-/*
-
-// Функция добавления отдельной карточки "из коробки"
-function renderCard(card) {
-    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
-    newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
-    newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
-    newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
-   
-    addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
-    cardsList.append(newCard) // Добавляю карточку "из коробки" в конец списка
+    return newCard; // Возвращаю карточку
 };
 
-// Функция добавления всех карточек "из коробки"
-function renderDefault() {
-    initialCards.forEach(renderCard);
+// Функция добавления карточки "из коробки"
+function addDefaultCard(card) {
+    const defaultCard = createCard()
+    
+    defaultCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
+    defaultCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
+    defaultCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
+    
+    cardsList.append(defaultCard); // Добавляю карточку "из коробки" в конец списка
 };
 
-renderDefault(); // Вызываю функцию добавления всех карточек "из коробки"
+// Функция добавления всех карточек "из коробки" на страницу
+function addAllDefaultCards() {
+    initialCards.forEach(addDefaultCard);
+};
+
+addAllDefaultCards(); // Вызываю функцию добавления всех карточек "из коробки"
 
 // Функция открытия окна попапа добавления карточек
 function openAddCardPopup() {
@@ -187,26 +139,20 @@ function closeAddCardPopup() {
 
 // Функция добавления новых карточек
 function addCard(event) {
-    event.preventDefault(); // Убирает дефолтные действия движка (в данном случае - обновление страницы)
-    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+    event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
+    
+    const newCard = createCard(); // Создаю новую карточку
+    
     newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
     newCard.querySelector('.elements__image').alt = placeName.value; // Вставляю значение тега 'alt'
     newCard.querySelector('.elements__image').src = picLink.value; // Вставляю ссылку на изображение
+    
+    cardsList.prepend(newCard) // Добавляю карточку в начало списка
+   
+    placeName.value = ''; // Обнуляю инпуты
+    picLink.value = ''; // Обнуляю инпуты
 
-    addListeners(newCard); // Добавляю карточкам слушателей кликов по кнопке удаления и по кнопке лайка
-    cardsList.prepend(newCard); // Вставляю карточку в начало списка
     closeAddCardPopup(); // Закрываю окно редактирования
-};
-
-
-// Функция удаления карточки
-function deleteCard(event) {
-    event.target.closest('.elements__item').remove();
-};
-
-// Функция добавления лайка
-function addLike(event) {
-    event.target.closest('.elements__like').classList.toggle('elements__like_active')
 };
 
 // Функция открытия попапа с изображением
@@ -232,5 +178,3 @@ cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слуша
 formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
-
-*/
