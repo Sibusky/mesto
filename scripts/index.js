@@ -140,11 +140,15 @@ function closeAddCardPopup() {
 function addCard(event) {
     event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
     
-    const newCard = createCard(event); // Создаю новую карточку
-    
-    newCard.querySelector('.elements__name').textContent = placeName.value; // Вставляю имя карточки из input
-    newCard.querySelector('.elements__image').alt = placeName.value; // Вставляю значение тега 'alt'
-    newCard.querySelector('.elements__image').src = picLink.value; // Вставляю ссылку на изображение
+    // Формирую объект для функции renderCard, потому что на вход она принимает объекты!
+    const cardName = placeName.value;
+    const cardLink = picLink.value;
+    const card = {
+        name: cardName, 
+        link: cardLink
+    };
+     
+    const newCard = createCard(card); // Создаю новую карточку
     
     cardsList.prepend(newCard) // Добавляю карточку в начало списка
    
