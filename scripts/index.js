@@ -49,12 +49,40 @@ const closeImagePopup = document.querySelector('.popup__close-button_place_image
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
+const closePopupFromOverlay = (popup) => {
+    popup.addEventListener('mousedown', function(event) {
+        if(event.target === event.currentTarget) {
+            popup.classList.remove('popup_opened');
+        }
+    })
+};
+
+const closePopupByEsc = (popup) => {
+    document.addEventListener('keydown', function(event) {
+        if(event.key === 'Escape') {
+            popup.classList.remove('popup_opened');
+        }
+    })
+};
+
+const closePopupByCloseButton = (popup) => {
+    const closeButton = popup.querySelector('.popup__close-button');
+    closeButton.addEventListener('click', function() {
+        popup.classList.remove('popup_opened');
+    })
+}
+
+
+
 // Функция открытия окна попапа
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    closePopupFromOverlay(popup);
+    closePopupByEsc(popup);
+    closePopupByCloseButton(popup);
 };
 
-// Функция закрытия окна попапа
+// Общая функция закрытия окна попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
 };
@@ -67,19 +95,16 @@ function openProfilePopupEdit() {
 };
 
 // Функция закрытия попапа редактирования профиля
-function closeProfilePopupEdit() {
-    closePopup(profilePopupEdit);
-};
+//function closeProfilePopupEdit() {
+   // closePopup(profilePopupEdit);
+//};
 
-// Функция закрытия popup при клике вне окна. Работает не вовсем корректно:
-// при нажатии в области окна, а отпускании вне, окно закроется,
-// что может привести к ложным закрытиям окна при выделении текста в input
-// Чтобы работало корректно, нужно использовать событие mousedown вместо click
-/* profilePopupEdit.addEventListener('click', function(event) {
-    if(event.target === event.currentTarget) {
-        closeProfilePopupEdit()
-    }
-}); */
+
+
+
+
+
+
 
 // Функция отправки формы профиля
 function submitProfile(event) {
@@ -170,11 +195,11 @@ function closeImage() {
 
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
-profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
+//profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
 formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
-cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
+//cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
 formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
@@ -281,4 +306,3 @@ const enableValidation = () => {
   
 // Вызываю функцию
 enableValidation(); 
-
