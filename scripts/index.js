@@ -49,6 +49,7 @@ const closeImagePopup = document.querySelector('.popup__close-button_place_image
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
+// Функция закрытия попапа из overlay
 const closePopupFromOverlay = (popup) => {
     popup.addEventListener('mousedown', function(event) {
         if(event.target === event.currentTarget) {
@@ -57,6 +58,7 @@ const closePopupFromOverlay = (popup) => {
     })
 };
 
+// Функция закрытия окна попапа клавишей Esc
 const closePopupByEsc = (popup) => {
     document.addEventListener('keydown', function(event) {
         if(event.key === 'Escape') {
@@ -65,16 +67,15 @@ const closePopupByEsc = (popup) => {
     })
 };
 
+// Функция закрытия окна попапа кнопкой закрытия
 const closePopupByCloseButton = (popup) => {
     const closeButton = popup.querySelector('.popup__close-button');
     closeButton.addEventListener('click', function() {
         popup.classList.remove('popup_opened');
     })
-}
+};
 
-
-
-// Функция открытия окна попапа
+// Универсальная функция открытия и закрытия окна всех попапов
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     closePopupFromOverlay(popup);
@@ -82,35 +83,18 @@ function openPopup(popup) {
     closePopupByCloseButton(popup);
 };
 
-// Общая функция закрытия окна попапа
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-};
-
 // Функция открытия попапа редактирования профиля
-function openProfilePopupEdit() {
+profileEditButton.addEventListener('click', () => {
     openPopup(profilePopupEdit);
     nameInput.value = profileName.textContent;
     bioInput.value = profileBio.textContent;
-};
-
-// Функция закрытия попапа редактирования профиля
-//function closeProfilePopupEdit() {
-   // closePopup(profilePopupEdit);
-//};
-
-
-
-
-
-
-
+}); 
 
 // Функция отправки формы профиля
-function submitProfile(event) {
+function submitProfile() {
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
-    closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
+    profilePopupEdit.classList.remove('popup_opened'); // Закрываем окно редактирования (popup) профиля
 };
 
 // Функция добавления лайка
@@ -150,18 +134,13 @@ function addAllDefaultCards() {
 
 addAllDefaultCards(); // Вызываю функцию добавления всех карточек "из коробки"
 
-// Функция открытия окна попапа добавления карточек
-function openAddCardPopup() {
+// Функция открытия попапа добавления фотографий
+cardsAddButton.addEventListener('click', () => {
     openPopup(cardsPopup);
-};
-
-// Функция закрытия попапа добавления карточек
-function closeAddCardPopup() {
-    closePopup(cardsPopup);
-};
+}); 
 
 // Функция добавления новых карточек
-function addCard(event) {
+function addCard() {
     // Формирую объект для функции renderCard, потому что на вход она принимает объекты!
     const cardName = placeName.value;
     const cardLink = picLink.value;
@@ -177,7 +156,7 @@ function addCard(event) {
     placeName.value = ''; // Обнуляю инпуты
     picLink.value = ''; // Обнуляю инпуты
 
-    closeAddCardPopup(); // Закрываю окно редактирования
+    cardsPopup.classList.remove('popup_opened'); // Закрываю окно редактирования
 };
 
 // Функция открытия попапа с изображением
@@ -188,27 +167,11 @@ function openImage(event) {
     imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
 };
 
-// Функция закрытия попапа с изображением
-function closeImage() {
-    openImagePopup.classList.remove('popup_opened');
-};
-
-// Добавляю слушателей событий для попапов
-profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
-//profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
+// Добавляю слушателей сабмитов для попапов
 formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
-
-cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
-//cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
 formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
-closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
-
-
-
-
-
-//Начинаю ВАЛИДАЦИЮ
+//Начинаю валидацию
 
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage) => {
@@ -234,8 +197,6 @@ const checkInputValidity = (formElement, inputElement) => {
       hideInputError(formElement, inputElement); // Если проходит, скрывает ошибку
     }
 };
- 
-
 
 // Функция, которая ищет невалидные инпуты
 const hasInvalidInput = (inputList) => {
@@ -247,7 +208,6 @@ const hasInvalidInput = (inputList) => {
       return !inputElement.validity.valid;
     })
 }; 
-
 
 // Функция для переключения состояния кнопки в зависимости от валидности полей
 const toggleButtonState = (inputList, buttonElement) => {
@@ -262,10 +222,6 @@ const toggleButtonState = (inputList, buttonElement) => {
       buttonElement.removeAttribute('disabled')
     }
 }; 
-
-
-
-
 
 // Функция слушатель для любого инпута
 const setEventListeners = (formElement) => {
@@ -304,5 +260,5 @@ const enableValidation = () => {
     });
 };
   
-// Вызываю функцию
+// Вызываю функцию валидации
 enableValidation(); 
