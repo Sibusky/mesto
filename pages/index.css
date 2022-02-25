@@ -39,9 +39,12 @@
 @import url(../blocks/popup/__input/_type/popup__input_type_name.css);
 @import url(../blocks/popup/__input/_type/popup__input_type_link.css);
 @import url(../blocks/popup/__input/_type/popup__input_type_place-name.css);
+@import url(../blocks/popup/__input/_type/popup__input_type_error.css);
+@import url(../blocks/popup/__input-error/popup__input-error_active.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__save-button/_place/popup__save-button_place_card.css);
 @import url(../blocks/popup/__save-button/_place/popup__save-button_place_profile.css);
+@import url(../blocks/popup/__save-button/popup__save-button_inactive.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/__close-button/_place/popup__close-button_place_cards\ button.css);
 @import url(../blocks/popup/__close-button/_place/popup__close-button_place_image.css);
@@ -53,30 +56,3 @@
 @import url(../blocks/popup/__image-container/popup__image-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/button/button.css);
-
-
-.popup__input_type_error {
-    border-bottom-color: red;
-}
-
-.popup__input-error_active {
-    font-family: 'Inter', Arial, sans-serif;
-    font-style:  normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 1;
-    text-rendering: optimizeLegibility;
-    text-decoration: none;
-    color: #ff0000;
-    max-width: 360px;
-    margin: 0;
-    padding: 0;
-}
-
-.popup__save-button_inactive {
-    border: 1px solid #000;
-    background-color: transparent;
-    color: #000;
-    opacity: .2;
-    cursor: default;
-}
