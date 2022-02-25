@@ -83,7 +83,6 @@ function closeProfilePopupEdit() {
 
 // Функция отправки формы профиля
 function submitProfile(event) {
-    event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
     closeProfilePopupEdit(); // Закрываем окно редактирования (popup)
@@ -138,8 +137,6 @@ function closeAddCardPopup() {
 
 // Функция добавления новых карточек
 function addCard(event) {
-    event.preventDefault(); // Убираю дефолтные действия движка (в данном случае - обновление страницы)
-    
     // Формирую объект для функции renderCard, потому что на вход она принимает объекты!
     const cardName = placeName.value;
     const cardLink = picLink.value;
@@ -174,11 +171,11 @@ function closeImage() {
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
-//formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
+formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
-//formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
+formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
 
@@ -187,12 +184,6 @@ closeImagePopup.addEventListener('click', closeImage) // Слушатель со
 
 
 //Начинаю ВАЛИДАЦИЮ
-const formElement = document.querySelector('.popup__form');
-const formInput = document.querySelector('.popup__input');
-const formError = formElement.querySelector(`.${formInput.name}-error`); 
-
-console.log(formInput.validationMessage)
-
 
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage) => {
@@ -218,34 +209,59 @@ const checkInputValidity = (formElement, inputElement) => {
       hideInputError(formElement, inputElement); // Если проходит, скрывает ошибку
     }
 };
-
-
-
-formElement.addEventListener('submit', function (evt) {
-    evt.preventDefault(); // Отмена дефолтных действий
-});
  
+
+
+// Функция, которая ищет невалидные инпуты
+const hasInvalidInput = (inputList) => {
+    // Прохожу по массиву методом some
+    return inputList.some((inputElement) => {
+      // Если поле не валидно, колбэк вернёт true
+      // Обход массива прекратится и вся фунцкция
+      // hasInvalidInput вернёт true  
+      return !inputElement.validity.valid;
+    })
+}; 
+
+
+// Функция для переключения состояния кнопки в зависимости от валидности полей
+const toggleButtonState = (inputList, buttonElement) => {
+    // Если есть хотя бы один невалидный инпут
+    if (hasInvalidInput(inputList)) {
+      // Кнопка становится неактивной
+      buttonElement.classList.add('popup__save-button_inactive');
+      buttonElement.setAttribute('disabled', true)
+    } else {
+      // В противном случае кнопка активная
+      buttonElement.classList.remove('popup__save-button_inactive');
+      buttonElement.removeAttribute('disabled')
+    }
+}; 
+
+
+
+
+
 // Функция слушатель для любого инпута
 const setEventListeners = (formElement) => {
     // Нахожу все поля формы и делаю из них массив
     const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+    // Нахожу в текущей форме кнопку
+    const buttonElement = formElement.querySelector('.popup__save-button');
+    // Делаю кнопку сабмита неактивной с самого начала
+    toggleButtonState(inputList, buttonElement);
     // Обхожу все элементы массива
     inputList.forEach((inputElement) => {
       // каждому полю добавляю обработчик события input
       inputElement.addEventListener('input', () => {
         // Внутри колбэка вызываю checkInputValidity,
         // передав ей форму и проверяемый элемент
-        checkInputValidity(formElement, inputElement)
+        checkInputValidity(formElement, inputElement);
+        // Делаю кнопку сабмита неактивной
+        toggleButtonState(inputList, buttonElement)
       });
     });
-  };
-
-
-
-// Вызываю функцию checkInputValidity на каждый ввод символа
-//formInput.addEventListener('input', checkInputValidity); 
-
-
+};
 
 //Функция запуска валидации формы
 const enableValidation = () => {
@@ -261,7 +277,8 @@ const enableValidation = () => {
       // передав ей элемент формы
       setEventListeners(formElement);
     });
-  };
+};
   
-  // Вызываю функцию
-  enableValidation(); 
+// Вызываю функцию
+enableValidation(); 
+
