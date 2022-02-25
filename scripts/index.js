@@ -174,10 +174,94 @@ function closeImage() {
 // Добавляю слушателей событий для попапов
 profileEditButton.addEventListener('click', openProfilePopupEdit); // Слушатель событий кнопки открытия попапа редактирования профиля
 profilePopupEditClose.addEventListener('click', closeProfilePopupEdit); // Слушатель событий кнопки закрытия попапа редактирования профиля
-formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
+//formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
 
 cardsAddButton.addEventListener('click', openAddCardPopup) // Слушатель событий кнопки добавления картинок
 cardsPopupCloseButton.addEventListener('click', closeAddCardPopup) // Слушатель событий кнопки закрытия попапа добавления картинок
-formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
+//formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
 
 closeImagePopup.addEventListener('click', closeImage) // Слушатель событий кнопки закрытия изображения
+
+
+
+
+
+//Начинаю ВАЛИДАЦИЮ
+const formElement = document.querySelector('.popup__form');
+const formInput = document.querySelector('.popup__input');
+const formError = formElement.querySelector(`.${formInput.name}-error`); 
+
+console.log(formInput.validationMessage)
+
+
+// Функция, которая добавляет класс с ошибкой
+const showInputError = (formElement, inputElement, errorMessage) => {
+    const errorElement = formElement.querySelector(`.${inputElement.name}-error`); // Нахожу элемент ошибки внутри самой функции
+    inputElement.classList.add('popup__input_type_error'); // Добавляю красную рамку снизу инпута
+    errorElement.textContent = errorMessage; // Добавляю стандартный текст об ошибке ввода
+    errorElement.classList.add('popup__input-error_active'); // Добавляю стили стандартному тексту об ошибке
+  };
+  
+// Функция, которая удаляет класс с ошибкой
+const hideInputError = (formElement, inputElement) => {
+    const errorElement = formElement.querySelector(`.${inputElement.name}-error`); // Нахожу элемент ошибки внутри самой функции
+    inputElement.classList.remove('popup__input_type_error'); // Удаляю красную рамку снизу инпута
+    errorElement.classList.remove('popup__input-error_active'); // Удаляю стили стандартного текста об ошибке
+    errorElement.textContent = '';// Обнуляю стандартный текст об ошибке ввода
+};
+  
+// Функция, которая проверяет валидность поля
+const checkInputValidity = (formElement, inputElement) => {
+    if (!inputElement.validity.valid) {
+      showInputError(formElement, inputElement, inputElement.validationMessage); // Если поле не проходит валидацию, показывает ошибку
+    } else {
+      hideInputError(formElement, inputElement); // Если проходит, скрывает ошибку
+    }
+};
+
+
+
+formElement.addEventListener('submit', function (evt) {
+    evt.preventDefault(); // Отмена дефолтных действий
+});
+ 
+// Функция слушатель для любого инпута
+const setEventListeners = (formElement) => {
+    // Нахожу все поля формы и делаю из них массив
+    const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+    // Обхожу все элементы массива
+    inputList.forEach((inputElement) => {
+      // каждому полю добавляю обработчик события input
+      inputElement.addEventListener('input', () => {
+        // Внутри колбэка вызываю checkInputValidity,
+        // передав ей форму и проверяемый элемент
+        checkInputValidity(formElement, inputElement)
+      });
+    });
+  };
+
+
+
+// Вызываю функцию checkInputValidity на каждый ввод символа
+//formInput.addEventListener('input', checkInputValidity); 
+
+
+
+//Функция запуска валидации формы
+const enableValidation = () => {
+    // Нахожу все формы и делаю из них массив
+    const formList = Array.from(document.querySelectorAll('.popup__form'));
+    // Перебираю полученную коллекцию
+    formList.forEach((formElement) => {
+      formElement.addEventListener('submit', (evt) => {
+        // У каждой формы отменяю стандартное поведение
+        evt.preventDefault();
+      });
+      // Для каждой формы вызваю функцию setEventListeners,
+      // передав ей элемент формы
+      setEventListeners(formElement);
+    });
+  };
+  
+  // Вызываю функцию
+  enableValidation(); 
