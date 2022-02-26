@@ -50,13 +50,25 @@ const imagePopup = document.querySelector('.popup__image'); // Открытая 
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
 
-
-
-const closePopop = (popup) => {
+// Универсальная функция закрытия окна попапа
+function closePopop(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
+};
+
+// Универсальная функция открытия и закрытия окна всех попапов
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closeByEscape);
 }
 
-
+// Функция закрытия окна попапа клавишей Esc
+function closeByEscape(event) {
+    if (event.key === 'Escape') {
+      const openedPopup = document.querySelector('.popup_opened');
+      closePopop(openedPopup);
+    }
+};
 
 // Функция закрытия попапа из overlay
 const closePopupFromOverlay = (popup) => {
@@ -67,14 +79,7 @@ const closePopupFromOverlay = (popup) => {
     })
 };
 
-// Функция закрытия окна попапа клавишей Esc
-const closePopupByEsc = (popup) => {
-    document.addEventListener('keydown', function(event) {
-        if(event.key === 'Escape') {
-            popup.classList.remove('popup_opened');
-        }
-    })
-};
+
 
 // Функция закрытия окна попапа кнопкой закрытия
 const closePopupByCloseButton = (popup) => {
@@ -84,13 +89,7 @@ const closePopupByCloseButton = (popup) => {
     })
 };
 
-// Универсальная функция открытия и закрытия окна всех попапов
-const openPopup = (popup) => {
-    popup.classList.add('popup_opened');
-    closePopupFromOverlay(popup);
-    closePopupByEsc(popup);
-    closePopupByCloseButton(popup);
-};
+
 
 // Функция открытия попапа редактирования профиля
 profileEditButton.addEventListener('click', () => {
