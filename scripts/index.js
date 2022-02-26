@@ -93,7 +93,7 @@ profileEditButton.addEventListener('click', () => {
 const submitProfile = () => {
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
-    profilePopupEdit.classList.remove('popup_opened'); // Закрываем окно редактирования (popup) профиля
+    closePopup(profilePopupEdit); // Закрываем окно редактирования (popup) профиля
 };
 
 // Функция добавления лайка
@@ -169,7 +169,7 @@ const addCard = () => {
 
     toggleButtonState(inputList, buttonElement) // Делаю кнопку сабмита неактивной, если инпуты обнулены
     
-    cardsPopup.classList.remove('popup_opened'); // Закрываю окно редактирования
+    closePopup(cardsPopup); // Закрываю окно редактирования
 };
 
 // Добавляю слушателей сабмитов для попапов
