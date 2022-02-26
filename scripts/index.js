@@ -49,11 +49,20 @@ const closeImagePopup = document.querySelector('.popup__close-button_place_image
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
+
+
+
+const closePopop = (popup) => {
+    popup.classList.remove('popup_opened');
+}
+
+
+
 // Функция закрытия попапа из overlay
 const closePopupFromOverlay = (popup) => {
     popup.addEventListener('mousedown', function(event) {
         if(event.target === event.currentTarget) {
-            popup.classList.remove('popup_opened');
+            closePopop(popup);
         }
     })
 };
@@ -71,12 +80,12 @@ const closePopupByEsc = (popup) => {
 const closePopupByCloseButton = (popup) => {
     const closeButton = popup.querySelector('.popup__close-button');
     closeButton.addEventListener('click', function() {
-        popup.classList.remove('popup_opened');
+        closePopop(popup);
     })
 };
 
 // Универсальная функция открытия и закрытия окна всех попапов
-function openPopup(popup) {
+const openPopup = (popup) => {
     popup.classList.add('popup_opened');
     closePopupFromOverlay(popup);
     closePopupByEsc(popup);
@@ -91,24 +100,32 @@ profileEditButton.addEventListener('click', () => {
 }); 
 
 // Функция отправки формы профиля
-function submitProfile() {
+const submitProfile = () => {
     profileName.textContent = nameInput.value; // Вставляем имя в профиль
     profileBio.textContent = bioInput.value; // Вставляем профессию в профиль
     profilePopupEdit.classList.remove('popup_opened'); // Закрываем окно редактирования (popup) профиля
 };
 
 // Функция добавления лайка
-function addLike(event) {
+const addLike = (event) => {
     event.target.closest('.elements__like').classList.toggle('elements__like_active')
 };
 
 // Функция удаления карточки
-function deleteCard(event) {
+const deleteCard = (event) => {
     event.target.closest('.elements__item').remove();
 };
 
+// Функция открытия попапа с изображением
+const openImage = (event) => {
+    openPopup(openImagePopup); // Открываю попап
+    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
+    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
+    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
+};
+
 // Функция создания карточки
-function createCard(card) {
+const createCard = (card) => {
     const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
 
     newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
@@ -123,7 +140,7 @@ function createCard(card) {
 };
 
 // Функция добавления карточки "из коробки"
-function addDefaultCard(card) {
+const addDefaultCard = (card) => {
     cardsList.append(createCard(card)); // Добавляю карточку "из коробки" в конец списка
 };
 
@@ -140,7 +157,7 @@ cardsAddButton.addEventListener('click', () => {
 }); 
 
 // Функция добавления новых карточек
-function addCard() {
+const addCard = () => {
     // Формирую объект для функции renderCard, потому что на вход она принимает объекты!
     const cardName = placeName.value;
     const cardLink = picLink.value;
@@ -159,87 +176,6 @@ function addCard() {
     cardsPopup.classList.remove('popup_opened'); // Закрываю окно редактирования
 };
 
-// Функция открытия попапа с изображением
-function openImage(event) {
-    openPopup(openImagePopup); // Открываю попап
-    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
-    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
-    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
-};
-
 // Добавляю слушателей сабмитов для попапов
 formProfileEdit.addEventListener('submit', submitProfile); //Слушатель событий отправки формы данных профиля
 formCarsdAdd.addEventListener('submit', addCard) // Слушатель событий отправки формы для добавления карточек
-
-//Начинаю валидацию
-
-// Функция, которая добавляет класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage) => {
-    const errorElement = formElement.querySelector(`.${inputElement.name}-error`); // Нахожу элемент ошибки внутри самой функции
-    inputElement.classList.add('popup__input_type_error'); // Добавляю красную рамку снизу инпута
-    errorElement.textContent = errorMessage; // Добавляю стандартный текст об ошибке ввода
-    errorElement.classList.add('popup__input-error_active'); // Добавляю стили стандартному тексту об ошибке
-  };
-  
-// Функция, которая удаляет класс с ошибкой
-const hideInputError = (formElement, inputElement) => {
-    const errorElement = formElement.querySelector(`.${inputElement.name}-error`); // Нахожу элемент ошибки внутри самой функции
-    inputElement.classList.remove('popup__input_type_error'); // Удаляю красную рамку снизу инпута
-    errorElement.classList.remove('popup__input-error_active'); // Удаляю стили стандартного текста об ошибке
-    errorElement.textContent = '';// Обнуляю стандартный текст об ошибке ввода
-};
-  
-// Функция, которая проверяет валидность поля
-const checkInputValidity = (formElement, inputElement) => {
-    if (!inputElement.validity.valid) {
-      showInputError(formElement, inputElement, inputElement.validationMessage); // Если поле не проходит валидацию, показывает ошибку
-    } else {
-      hideInputError(formElement, inputElement); // Если проходит, скрывает ошибку
-    }
-};
-
-// Функция, которая ищет невалидные инпуты
-const hasInvalidInput = (inputList) => {
-    // Прохожу по массиву методом some
-    return inputList.some((inputElement) => {
-      // Если поле не валидно, колбэк вернёт true
-      // Обход массива прекратится и вся фунцкция
-      // hasInvalidInput вернёт true  
-      return !inputElement.validity.valid;
-    })
-}; 
-
-// Функция для переключения состояния кнопки в зависимости от валидности полей
-const toggleButtonState = (inputList, buttonElement) => {
-    // Если есть хотя бы один невалидный инпут
-    if (hasInvalidInput(inputList)) {
-      // Кнопка становится неактивной
-      buttonElement.classList.add('popup__save-button_inactive');
-      buttonElement.setAttribute('disabled', true)
-    } else {
-      // В противном случае кнопка активная
-      buttonElement.classList.remove('popup__save-button_inactive');
-      buttonElement.removeAttribute('disabled')
-    }
-}; 
-
-// Функция слушатель для любого инпута
-const setEventListeners = (formElement) => {
-    // Нахожу все поля формы и делаю из них массив
-    const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-    // Нахожу в текущей форме кнопку
-    const buttonElement = formElement.querySelector('.popup__save-button');
-    // Делаю кнопку сабмита неактивной с самого начала
-    toggleButtonState(inputList, buttonElement);
-    // Обхожу все элементы массива
-    inputList.forEach((inputElement) => {
-      // каждому полю добавляю обработчик события input
-      inputElement.addEventListener('input', () => {
-        // Внутри колбэка вызываю checkInputValidity,
-        // передав ей форму и проверяемый элемент
-        checkInputValidity(formElement, inputElement);
-        // Делаю кнопку сабмита неактивной
-        toggleButtonState(inputList, buttonElement)
-      });
-    });
-};
