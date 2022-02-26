@@ -1,6 +1,6 @@
+const popups = document.querySelectorAll('.popup'); // Все попапы
 const profileEditButton = document.querySelector('.profile__edit-button'); // Кнопка редактирования профиля
 const profilePopupEdit = document.querySelector('.popup_place_profile'); // Попап редактирования профиля
-const profilePopupEditClose = document.querySelector('.popup__close-button_place_profile'); // Кнопка закрытия попапа редактирования профиля
 const formProfileEdit = document.querySelector('.popup__form_place_profile'); // Форма редактирования профиля
 const nameInput = document.querySelector('.popup__input_type_name'); // Ввод данных имени
 const bioInput = document.querySelector('.popup__input_type_bio'); // Ввод данных профессии
@@ -9,7 +9,6 @@ const profileBio = document.querySelector('.profile__bio'); // Професси�
 
 const cardsAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточек
 const cardsPopup = document.querySelector('.popup_place_cards'); // Попап добавления карточек
-const cardsPopupCloseButton = document.querySelector('.popup__close-button_place_cards'); //Кнопка закрытия попапа добавления карточек
 const formCarsdAdd = document.querySelector('.popup__form_place_card'); // Форма добавления карточек
 const placeName = document.querySelector('.popup__input_type_place-name'); // Ввод данных имени места
 const picLink = document.querySelector('.popup__input_type_link'); // Ввод данных ссылки на картинку
@@ -45,51 +44,43 @@ const initialCards = [
 ]; 
 
 const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
-const closeImagePopup = document.querySelector('.popup__close-button_place_image'); // Кнопка закрытия попапа с изображнием
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
 
 // Универсальная функция закрытия окна попапа
-function closePopop(popup) {
+function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeByEscape);
+    document.removeEventListener('keydown', closeByEscape); // Удаляю обработчик нажатия клавиши Esc
 };
 
 // Универсальная функция открытия и закрытия окна всех попапов
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closeByEscape);
+    document.addEventListener('keydown', closeByEscape); // Добавляю обработчик нажатия клавиши Esc
 }
 
 // Функция закрытия окна попапа клавишей Esc
 function closeByEscape(event) {
     if (event.key === 'Escape') {
       const openedPopup = document.querySelector('.popup_opened');
-      closePopop(openedPopup);
+      closePopup(openedPopup);
     }
 };
 
-// Функция закрытия попапа из overlay
-const closePopupFromOverlay = (popup) => {
-    popup.addEventListener('mousedown', function(event) {
-        if(event.target === event.currentTarget) {
-            closePopop(popup);
+// Прохожусь по массиву попапов
+popups.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+        // и закрываю из области overlay
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup)
+        }
+        // либо нажатием на крестик
+        if (evt.target.classList.contains('popup__close-button')) {
+          closePopup(popup)
         }
     })
-};
-
-
-
-// Функция закрытия окна попапа кнопкой закрытия
-const closePopupByCloseButton = (popup) => {
-    const closeButton = popup.querySelector('.popup__close-button');
-    closeButton.addEventListener('click', function() {
-        closePopop(popup);
-    })
-};
-
-
+});
 
 // Функция открытия попапа редактирования профиля
 profileEditButton.addEventListener('click', () => {
