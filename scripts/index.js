@@ -159,10 +159,16 @@ const addCard = () => {
     const newCard = createCard(card); // Создаю новую карточку
     
     cardsList.prepend(newCard) // Добавляю карточку в начало списка
-   
+     
     placeName.value = ''; // Обнуляю инпуты
     picLink.value = ''; // Обнуляю инпуты
 
+    const openedPopup = document.querySelector('.popup_opened'); // Нахожу открытый попап
+    const inputList = Array.from(openedPopup.querySelectorAll('.popup__input')); // Определяю в нём массив инпутов
+    const buttonElement = openedPopup.querySelector('.popup__save-button'); // Нахожу в нём кнопку сабмита
+
+    toggleButtonState(inputList, buttonElement) // Делаю кнопку сабмита неактивной, если инпуты обнулены
+    
     cardsPopup.classList.remove('popup_opened'); // Закрываю окно редактирования
 };
 

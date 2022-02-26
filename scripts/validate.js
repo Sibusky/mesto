@@ -1,4 +1,3 @@
-
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage) => {
     const errorElement = formElement.querySelector(`.${inputElement.name}-error`); // Нахожу элемент ошибки внутри самой функции
@@ -36,18 +35,18 @@ const hasInvalidInput = (inputList) => {
 }; 
 
 // Функция для переключения состояния кнопки в зависимости от валидности полей
-const toggleButtonState = (inputList, buttonElement) => {
-    // Если есть хотя бы один невалидный инпут
-    if (hasInvalidInput(inputList)) {
-      // Кнопка становится неактивной
-      buttonElement.classList.add('popup__save-button_inactive');
-      buttonElement.setAttribute('disabled', true)
-    } else {
-      // В противном случае кнопка активная
-      buttonElement.classList.remove('popup__save-button_inactive');
-      buttonElement.removeAttribute('disabled')
-    }
-}; 
+function toggleButtonState(inputList, buttonElement) {
+  // Если есть хотя бы один невалидный инпут
+  if (hasInvalidInput(inputList)) {
+    // Кнопка становится неактивной
+    buttonElement.classList.add('popup__save-button_inactive');
+    buttonElement.setAttribute('disabled', true);
+  } else {
+    // В противном случае кнопка активная
+    buttonElement.classList.remove('popup__save-button_inactive');
+    buttonElement.removeAttribute('disabled');
+  }
+} 
 
 // Функция слушатель для любого инпута
 const setEventListeners = (formElement) => {
