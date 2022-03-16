@@ -1,3 +1,5 @@
+import { FormValidator } from './FormValidator.js'
+
 const popups = document.querySelectorAll('.popup'); // Все попапы
 const profileEditButton = document.querySelector('.profile__edit-button'); // Кнопка редактирования профиля
 const profilePopupEdit = document.querySelector('.popup_place_profile'); // Попап редактирования профиля
@@ -47,6 +49,21 @@ const openImagePopup = document.querySelector('.popup_place_image'); // Попа
 const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
 const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
+// Конфиг валидации
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active'
+};
+
+const editProfileValidator = new FormValidator(validationConfig, formProfileEdit); // Валидация формы редактирования профиля
+const addCardValidator = new FormValidator(validationConfig, formCarsdAdd); // Валидация формы добавления карточки
+
+editProfileValidator.enableValidation(); // Вызываю метод валидации для формы редактирования профиля
+addCardValidator.enableValidation(); // Вызываю метод валидации для формы добавления карточки
 
 // Универсальная функция закрытия окна попапа
 function closePopup(popup) {
@@ -143,6 +160,7 @@ addAllDefaultCards(); // Вызываю функцию добавления вс
 
 // Функция открытия попапа добавления фотографий
 cardsAddButton.addEventListener('click', () => {
+    addCardValidator.resetErrors();
     openPopup(cardsPopup);
 }); 
 
@@ -167,7 +185,7 @@ const addCard = () => {
     const inputList = Array.from(openedPopup.querySelectorAll('.popup__input')); // Определяю в нём массив инпутов
     const buttonElement = openedPopup.querySelector('.popup__save-button'); // Нахожу в нём кнопку сабмита
 
-    toggleButtonState(inputList, buttonElement) // Делаю кнопку сабмита неактивной, если инпуты обнулены
+    addCardValidator.toggleButtonState() // Делаю кнопку сабмита неактивной, если инпуты обнулены
     
     closePopup(cardsPopup); // Закрываю окно редактирования
 };
