@@ -1,4 +1,7 @@
-import { FormValidator } from './FormValidator.js'
+import { FormValidator } from './FormValidator.js';
+import { openPopup, closePopup } from './utils.js';
+import { imagePopup, imageTitle, openImagePopup } from './constants.js'
+import { Card } from './Card.js'
 
 const popups = document.querySelectorAll('.popup'); // Все попапы
 const profileEditButton = document.querySelector('.profile__edit-button'); // Кнопка редактирования профиля
@@ -15,7 +18,7 @@ const formCarsdAdd = document.querySelector('.popup__form_place_card'); // Фо�
 const placeName = document.querySelector('.popup__input_type_place-name'); // Ввод данных имени места
 const picLink = document.querySelector('.popup__input_type_link'); // Ввод данных ссылки на картинку
 
-const templateCards = document.querySelector('.elements__template').content; // Template карточки с фотографией
+
 const cardsList = document.querySelector('.elements__list'); // Список с карточками
 
 const initialCards = [
@@ -45,9 +48,7 @@ const initialCards = [
     }
 ]; 
 
-const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
-const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
-const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
+
 
 // Конфиг валидации
 const validationConfig = {
@@ -65,25 +66,7 @@ const addCardValidator = new FormValidator(validationConfig, formCarsdAdd); // �
 editProfileValidator.enableValidation(); // Вызываю метод валидации для формы редактирования профиля
 addCardValidator.enableValidation(); // Вызываю метод валидации для формы добавления карточки
 
-// Универсальная функция закрытия окна попапа
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeByEscape); // Удаляю обработчик нажатия клавиши Esc
-};
 
-// Универсальная функция открытия и закрытия окна всех попапов
-function openPopup(popup) {
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closeByEscape); // Добавляю обработчик нажатия клавиши Esc
-}
-
-// Функция закрытия окна попапа клавишей Esc
-function closeByEscape(event) {
-    if (event.key === 'Escape') {
-      const openedPopup = document.querySelector('.popup_opened');
-      closePopup(openedPopup);
-    }
-};
 
 // Прохожусь по массиву попапов
 popups.forEach((popup) => {
@@ -114,49 +97,34 @@ const submitProfile = () => {
 };
 
 // Функция добавления лайка
-const addLike = (event) => {
-    event.target.closest('.elements__like').classList.toggle('elements__like_active')
-};
+
 
 // Функция удаления карточки
-const deleteCard = (event) => {
-    event.target.closest('.elements__item').remove();
-};
+
 
 // Функция открытия попапа с изображением
-const openImage = (event) => {
+const handleImageClick = (name, link) => { 
+    imagePopup.src = link; // Присваиваю картинке ссылку
+    imagePopup.alt = name; // Присваиваю картинке значение атрибута 'alt'
+    imageTitle.textContent = name; // Присваиваю название картинки
+
     openPopup(openImagePopup); // Открываю попап
-    imagePopup.src = event.target.closest('.elements__image').src; // Присваиваю картинке ссылку
-    imagePopup.alt = event.target.closest('.elements__image').alt; // Присваиваю картинке значение атрибута 'alt'
-    imageTitle.textContent = event.target.closest('.elements__image').alt; // Присваиваю название картинки
 };
 
 // Функция создания карточки
-const createCard = (card) => {
-    const newCard = templateCards.cloneNode(true); // Клонирую содержимое template
+const renderCard = (data) => {
+    const card = new Card(data, '.elements__template', handleImageClick);
+    const cardElement = card.createCard();
 
-    newCard.querySelector('.elements__name').textContent = card.name; // Присваиваю имя карточке
-    newCard.querySelector('.elements__image').alt = card.name; // Присваиваю значение атрибута 'alt'
-    newCard.querySelector('.elements__image').src = card.link; // Присваиваю ссылку карточке
-
-    newCard.querySelector('.elements__like').addEventListener('click', addLike); // Слушатель событий на добавление лайка
-    newCard.querySelector('.elements__delete-card-button').addEventListener('click', deleteCard); // Слушатель событий на удаление карточки
-    newCard.querySelector('.elements__image').addEventListener('click', openImage); // Слушатель событий на открытие изображения
-
-    return newCard; // Возвращаю карточку
-};
-
-// Функция добавления карточки "из коробки"
-const addDefaultCard = (card) => {
-    cardsList.append(createCard(card)); // Добавляю карточку "из коробки" в конец списка
-};
+    cardsList.prepend(cardElement);
+}
 
 // Функция добавления всех карточек "из коробки" на страницу
-function addAllDefaultCards() {
-    initialCards.forEach(addDefaultCard);
+const addDefaultCards = () => {
+    initialCards.forEach(renderCard);
 };
 
-addAllDefaultCards(); // Вызываю функцию добавления всех карточек "из коробки"
+addDefaultCards(); // Вызываю функцию добавления всех карточек "из коробки"
 
 // Функция открытия попапа добавления фотографий
 cardsAddButton.addEventListener('click', () => {
@@ -166,24 +134,16 @@ cardsAddButton.addEventListener('click', () => {
 
 // Функция добавления новых карточек
 const addCard = () => {
-    // Формирую объект для функции renderCard, потому что на вход она принимает объекты!
-    const cardName = placeName.value;
-    const cardLink = picLink.value;
-    const card = {
-        name: cardName, 
-        link: cardLink
-    };
-     
-    const newCard = createCard(card); // Создаю новую карточку
-    
-    cardsList.prepend(newCard) // Добавляю карточку в начало списка
-     
+    // Формирую объект
+    const data = {
+        name: placeName.value,
+        link: picLink.value
+    }
+
+    renderCard(data); // Создаю новую карточку    
+ 
     placeName.value = ''; // Обнуляю инпуты
     picLink.value = ''; // Обнуляю инпуты
-
-    const openedPopup = document.querySelector('.popup_opened'); // Нахожу открытый попап
-    const inputList = Array.from(openedPopup.querySelectorAll('.popup__input')); // Определяю в нём массив инпутов
-    const buttonElement = openedPopup.querySelector('.popup__save-button'); // Нахожу в нём кнопку сабмита
 
     addCardValidator.toggleButtonState() // Делаю кнопку сабмита неактивной, если инпуты обнулены
     
