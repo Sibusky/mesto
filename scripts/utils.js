@@ -1,4 +1,4 @@
-// Универсальная функция открытия и закрытия окна всех попапов
+// Универсальная функция открытия окна всех попапов
 export function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closeByEscape); // Добавляю обработчик нажатия клавиши Esc
