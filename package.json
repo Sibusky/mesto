@@ -1,0 +1,38 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Проект представляет собой одностраничный сайт с  карточками природных достопримечательностей России, а также профиль пользователя, добавившего их. Макет адаптивный и принимает удобный вид на всех разрешениях от 320 px до 1280 px. Также присутсвует анимация кнопок при наведении курсора. Окна попапов открываются и закрываются плавно. Это реализовано на свойствах **CSS** _visibility_, _opacity_ и _transition_.\r С помощью JavaScipt реализован следующий функционал:\r - открываются окна popup для редактирования данных профиля, добавления новых карточек, просмотра увеличенных фотографий мест,\r - удаление карточек,\r - возможность поставить карточке лайк,\r - все формы валидируются перед отправкой на сервер.\r - код организован согласно ООП с использованием классов со слабой связью",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sibusky/mesto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sibusky/mesto/issues"
+  },
+  "homepage": "https://github.com/Sibusky/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "autoprefixer": "^10.4.4",
+    "babel-loader": "^8.2.4",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.7",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss-loader": "^6.2.1",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "dependencies": {
+    "core-js": "^3.21.1"
+  }
+}

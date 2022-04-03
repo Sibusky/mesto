@@ -1,22 +1,14 @@
-export const openImagePopup = document.querySelector('.popup_place_image'); // Попап с фотографией 
-export const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
-export const imageTitle = document.querySelector('.popup__image-title'); // Название открытой фотографии
 
-export const popups = document.querySelectorAll('.popup'); // Все попапы
+export const imagePopup = document.querySelector('.popup__image'); // Открытая фотография
+
+
 export const profileEditButton = document.querySelector('.profile__edit-button'); // Кнопка редактирования профиля
-export const profilePopupEdit = document.querySelector('.popup_place_profile'); // Попап редактирования профиля
 export const formProfileEdit = document.querySelector('.popup__form_place_profile'); // Форма редактирования профиля
 export const nameInput = document.querySelector('.popup__input_type_name'); // Ввод данных имени
 export const bioInput = document.querySelector('.popup__input_type_bio'); // Ввод данных профессии
-export const profileName = document.querySelector('.profile__name'); // Имя профиля на самой странице
-export const profileBio = document.querySelector('.profile__bio'); // Профессия профиля на самой странице
 
 export const cardsAddButton = document.querySelector('.profile__add-button'); //Кнопка добавления карточек
-export const cardsPopup = document.querySelector('.popup_place_cards'); // Попап добавления карточек
 export const formCarsdAdd = document.querySelector('.popup__form_place_card'); // Форма добавления карточек
-export const placeName = document.querySelector('.popup__input_type_place-name'); // Ввод данных имени места
-export const picLink = document.querySelector('.popup__input_type_link'); // Ввод данных ссылки на картинку
-
 
 export const cardsList = document.querySelector('.elements__list'); // Список с карточками
 

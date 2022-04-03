@@ -1,3 +1,5 @@
+import './index.css'; // импорт главного файла стилей 
+
 import { profileEditButton, 
     formProfileEdit,
     nameInput,

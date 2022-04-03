@@ -4,15 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="./images/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="pages/index.css" />
+    <link rel="shortcut icon" href="<%=require('./images/favicon.png')%>" type="image/png" />
     <title>Место</title>
 </head>
 
 <body>
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/header-logo.svg" alt="Логотип" />
+            <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип" />
         </header>
 
         <main class="container">
@@ -112,7 +111,6 @@
         </li>
     </template>
 
-    <script type="module" src="./pages/index.js"></script>
 </body>
 
 </html>
