@@ -12,7 +12,8 @@ export class Card {
     };
 
     _deleteCard = () => {
-        this._cardElement.remove();
+        this._cardElement.remove(); // Удаляю карточку
+        this._element = null; // Удаляю ссылку на DOM-элемент
     };
 
     _setEventListeners() {            

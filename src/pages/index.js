@@ -9,13 +9,13 @@ import { profileEditButton,
     cardsList,
     initialCards,
     validationConfig 
-} from '../scripts/constants.js'
-import { FormValidator } from '../scripts/FormValidator.js';
-import { Card } from '../scripts/Card.js'
-import { Section } from '../scripts/Section.js'
-import { PopupWithImage } from '../scripts/PopupWithImage.js'
-import { PopupWithForm } from '../scripts/PopupWithForm.js'
-import { UserInfo } from '../scripts/UserInfo.js'
+} from '../utils/constants.js'
+import { FormValidator } from '../components/FormValidator.js';
+import { Card } from '../components/Card.js'
+import { Section } from '../components/Section.js'
+import { PopupWithImage } from '../components/PopupWithImage.js'
+import { PopupWithForm } from '../components/PopupWithForm.js'
+import { UserInfo } from '../components/UserInfo.js'
 
 
 const editProfileValidator = new FormValidator(validationConfig, formProfileEdit); // Валидация формы редактирования профиля
@@ -58,7 +58,7 @@ const createCard = (data) => {
 // Функция загрузки карточки на страницу
 const renderCard = (data) => {
     const cardElement = createCard(data);
-    cardsList.prepend(cardElement); // Вставляю карточку в начало списка
+    section.addItem(cardElement); // Вставляю карточку в начало списка
 };
 
 // Функция открытия попапа добавления фотографий
