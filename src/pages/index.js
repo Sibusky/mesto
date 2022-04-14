@@ -24,30 +24,15 @@ let userId // Id юзера для сравнения со своим Id
 
 // Промис для отслеживания выполнения обоих методов класса Api,
 // если один не выполнится, то второй тоже
-Promise.all([
-    api.getProfile(),
-    api.getInitialCards()
-    ])
-    .then(()=>{
-        // Получаю данные о пользователе аватаре и Id с сервера
-        api.getProfile()
-            .then((res) => {
-                userInfo.setUserInfo(res.name, res.about);
-                userInfo.setUserAvatar(res.avatar);
-                userId = res._id
-            })
-            .catch(err => console.log(`Ошибка: ${err}`));
-
-        // Получаю Initial cards с сервера
-        api.getInitialCards()
-            .then((cardList) => {
-                cardList.forEach((data) => {
-                renderCard(data)
-                });
-            })
-            .catch(err => console.log(`Ошибка: ${err}`));
+Promise.all([api.getProfile(), api.getInitialCards()])
+    .then(([profileInfo, cardList]) => {
+        // Получаю данные о пользователе, аватаре и Id с сервера    
+        userInfo.setUserInfo(profileInfo.name, profileInfo.about);
+        userInfo.setUserAvatar(profileInfo.avatar);
+        userId = profileInfo._id
+        section.renderItems(cardList)
     })
-    .catch(err => console.log(`Ошибка: ${err}`));
+    .catch(err => console.log(`Ошибка: ${err}`)); 
 
 
 // Валидация формы редактирования профиля
@@ -84,22 +69,14 @@ const submitProfile = (data) => {
     editProfilePopup.renderLoading(true, 'Сохранение...'); // Меняю текст кнопки сабмита на "Сохранение..."
 
     api.editProfile(profile.name, profile.bio)
-        .then(() => {
-
-            // Вставляю данные имени и описания с сервера
-            api.getProfile()
-            .then((res) => {
-                userInfo.setUserInfo(res.name, res.about); 
-            })
-            .catch(err => console.log(`Ошибка: ${err}`));
-
-            // Закрываю окно
-            editProfilePopup.close(); 
+        .then((res) => {
+            userInfo.setUserInfo(res.name, res.about); // Вставляю данные профиля с сервера 
+            editProfilePopup.close(); // Закрываю окно 
         })
         .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
             editProfilePopup.renderLoading(false, 'Сохранить') // Меняю текст кнопки сабмита на "Сохранить"
-        }); 
+        });
 };
 
 // Функция редактирования аватара
@@ -109,25 +86,17 @@ const editAvatar = (data) => {
         avatar: data['avatarlink-input']
     };
 
-    editProfilePopup.renderLoading(true, 'Сохранение...'); // Меняю текст кнопки сабмита на "Сохранение..."
-
+    editAvatarPopup.renderLoading(true, 'Сохранение...'); // Меняю текст кнопки сабмита на "Сохранение..."
+    
     api.editAvatar(profile.avatar)
-        .then(() => {
-
-            // Вставляю данные аватара с сервера
-            api.getProfile()
-            .then((res) => {
-                userInfo.setUserAvatar(res.avatar);
-            })
-            .catch(err => console.log(`Ошибка: ${err}`));
-            
-            // Закрываю окно
-            editAvatarPopup.close(); 
+        .then((res) => {
+            userInfo.setUserAvatar(res.avatar); // Вставляю аватара с сервера 
+            editAvatarPopup.close(); // Закрываю окно 
         })
         .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
-            editProfilePopup.renderLoading(false, 'Сохранить') // Меняю текст кнопки сабмита на "Сохранить"
-        }); 
+            editAvatarPopup.renderLoading(false, 'Сохранить') // Меняю текст кнопки сабмита на "Сохранить"
+        });
 
 };
 
