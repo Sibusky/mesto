@@ -5,8 +5,8 @@ export class Section {
         this._renderer = renderer
     }
 
-    renderItems() {
-        this._items.forEach(data => {
+    renderItems(items) {
+        items.forEach(data => {
             this._renderer(data)
         })
     }

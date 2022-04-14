@@ -9,7 +9,6 @@ class Api {
       headers: this._headers,
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status))) // Если ответ пришёл, получаем .json, если нет, идём в .catch
-      .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   getInitialCards() {
@@ -17,7 +16,6 @@ class Api {
         headers: this._headers,
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   editProfile(name, about) {
@@ -30,7 +28,6 @@ class Api {
           })
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
   
   addCard(name, link) {
@@ -43,7 +40,6 @@ class Api {
           })
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   deleteCard(id) {
@@ -52,7 +48,6 @@ class Api {
         headers: this._headers,        
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   deleteLike(id) {
@@ -61,7 +56,6 @@ class Api {
         headers: this._headers,        
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   addLike(id) {
@@ -70,7 +64,6 @@ class Api {
         headers: this._headers,        
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   editAvatar(avatar) {
@@ -82,7 +75,6 @@ class Api {
           })
       })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-        .catch(err => console.log(`Ошибка: ${err}`));
   }
 
 }

@@ -21,13 +21,13 @@ export class PopupWithForm extends Popup {
         this._handleSubmit = newSubmitHendler
     }
 
-    renderLoading(isLoading) {
+    renderLoading(isLoading, text) {
         this._saveButton = this._popup.querySelector('.popup__save-button')
 
         if (isLoading) {
-          this._saveButton.textContent = 'Сохранение...'
+          this._saveButton.textContent = text
         } else {
-            this._saveButton.textContent = 'Сохранить'
+            this._saveButton.textContent = text
         }
     }
 

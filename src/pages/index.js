@@ -22,33 +22,33 @@ import { api } from '../components/Api.js';
 
 let userId // Id юзера для сравнения со своим Id
 
-// Получаю данные о пользователе аватаре и Id с сервера
-api.getProfile()
-    .then((res) => {
-        userInfo.setUserInfo(res.name, res.about);
-        userInfo.setUserAvatar(res.avatar);
-        userId = res._id
-});
+// Промис для отслеживания выполнения обоих методов класса Api,
+// если один не выполнится, то второй тоже
+Promise.all([
+    api.getProfile(),
+    api.getInitialCards()
+    ])
+    .then(()=>{
+        // Получаю данные о пользователе аватаре и Id с сервера
+        api.getProfile()
+            .then((res) => {
+                userInfo.setUserInfo(res.name, res.about);
+                userInfo.setUserAvatar(res.avatar);
+                userId = res._id
+            })
+            .catch(err => console.log(`Ошибка: ${err}`));
 
-// Получаю Initial cards с сервера
-api.getInitialCards()
-    .then((cardList) => {
-    cardList.forEach((data) => {
-        const card = createCard({
-            name: data.name,
-            link: data.link,
-            likes: data.likes,
-            id: data._id,
-            userId: userId,
-            ownerId: data.owner._id
-        });
+        // Получаю Initial cards с сервера
+        api.getInitialCards()
+            .then((cardList) => {
+                cardList.forEach((data) => {
+                renderCard(data)
+                });
+            })
+            .catch(err => console.log(`Ошибка: ${err}`));
+    })
+    .catch(err => console.log(`Ошибка: ${err}`));
 
-        if (userId) {
-            section.addItem(card); //Добавляю карточки на страницу, если Id получен
-        }
-
-    });
-});
 
 // Валидация формы редактирования профиля
 const editProfileValidator = new FormValidator(validationConfig, formProfileEdit);
@@ -81,14 +81,25 @@ const submitProfile = (data) => {
         bio: data['bio-input'],
     };
 
-    editProfilePopup.renderLoading(true); // Меняю текст кнопки сабмита на "Сохранение..."
+    editProfilePopup.renderLoading(true, 'Сохранение...'); // Меняю текст кнопки сабмита на "Сохранение..."
 
     api.editProfile(profile.name, profile.bio)
         .then(() => {
-            userInfo.setUserInfo(profile.name, profile.bio); // Вставляю данные инпутов
-            editProfilePopup.close(); // Закрываю окно
-            editProfilePopup.renderLoading(false) // Меняю текст кнопки сабмита на "Сохранить"
-        });
+
+            // Вставляю данные имени и описания с сервера
+            api.getProfile()
+            .then((res) => {
+                userInfo.setUserInfo(res.name, res.about); 
+            })
+            .catch(err => console.log(`Ошибка: ${err}`));
+
+            // Закрываю окно
+            editProfilePopup.close(); 
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => {
+            editProfilePopup.renderLoading(false, 'Сохранить') // Меняю текст кнопки сабмита на "Сохранить"
+        }); 
 };
 
 // Функция редактирования аватара
@@ -98,14 +109,25 @@ const editAvatar = (data) => {
         avatar: data['avatarlink-input']
     };
 
-    editAvatarPopup.renderLoading(true) // Меняю текст кнопки сабмита на "Сохранение..."
+    editProfilePopup.renderLoading(true, 'Сохранение...'); // Меняю текст кнопки сабмита на "Сохранение..."
 
     api.editAvatar(profile.avatar)
         .then(() => {
-            userInfo.setUserAvatar(profile.avatar); // Вставляю данные 
-            editAvatarPopup.close(); // Закрываю окно
-            editAvatarPopup.renderLoading(false) // Меняю текст кнопки сабмита на "Сохранить"
-        });
+
+            // Вставляю данные аватара с сервера
+            api.getProfile()
+            .then((res) => {
+                userInfo.setUserAvatar(res.avatar);
+            })
+            .catch(err => console.log(`Ошибка: ${err}`));
+            
+            // Закрываю окно
+            editAvatarPopup.close(); 
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => {
+            editProfilePopup.renderLoading(false, 'Сохранить') // Меняю текст кнопки сабмита на "Сохранить"
+        }); 
 
 };
 
@@ -120,11 +142,18 @@ const createCard = (data) => {
         (id) => {
             confirmDeletePopup.open()
             confirmDeletePopup.changeSubmitHendler(() => {
+
+                confirmDeletePopup.renderLoading(true, 'Удаление...'); // Меняю текст кнопки сабмита на "Удаление..."
+
                 api.deleteCard(id)
                     .then(res => {
                         card.deleteCard()
                         confirmDeletePopup.close()
                     })
+                    .catch(err => console.log(`Ошибка: ${err}`))
+                    .finally(() => {
+                        confirmDeletePopup.renderLoading(false, 'Да') // Меняю текст кнопки сабмита на "Да"
+                    }); 
             })
 
         },
@@ -134,11 +163,13 @@ const createCard = (data) => {
                     .then(res => {
                         card.setLikes(res.likes)
                     })
+                    .catch(err => console.log(`Ошибка: ${err}`))
             } else {
                 api.addLike(id)
                     .then(res => {
-                        card.setLikes(res.likes)
+                        card.setLikes(res.likes)                        
                     })
+                    .catch(err => console.log(`Ошибка: ${err}`))
             }
 
         }
@@ -149,9 +180,16 @@ const createCard = (data) => {
 
 // Функция загрузки карточки на страницу
 const renderCard = (data) => {
-    const cardElement = createCard(data);
+    const cardElement = createCard({
+                name: data.name,
+                link: data.link,
+                likes: data.likes,
+                id: data._id,
+                userId: userId,
+                ownerId: data.owner._id
+            });
     section.addItem(cardElement); // Вставляю карточку в начало списка
-};
+}; 
 
 // Функция открытия попапа добавления фотографий
 cardsAddButton.addEventListener('click', () => {
@@ -167,25 +205,23 @@ avatarImage.addEventListener('click', () => {
 
 // Функция добавления новых карточек
 const addCard = (data) => {
+
+    addCardPopup.renderLoading(true, 'Создание...'); // Меняю текст кнопки сабмита на "Создание..."
+
     api.addCard(
         data['placename-input'], 
         data['picturelink-input']
         )
         .then((res) => {
-            const card = createCard({
-                name: res.name,
-                link: res.link,
-                likes: res.likes,
-                id: res._id,
-                userId: userId,
-                ownerId: res.owner._id
-            });
-
-            section.addItem(card); // Добавляю карточку
+            renderCard(res);
 
             addCardValidator.toggleButtonState(); // Делаю кнопку сабмита неактивной, если инпуты обнулены
 
             addCardPopup.close(); // Закрываю окно редактирования
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => {
+            addCardPopup.renderLoading(false, 'Создать') // Меняю текст кнопки сабмита на "Создать"
         });
 };
 

@@ -80,12 +80,7 @@ export class FormValidator {
     };
 
     enableValidation() {
-        // Вешаю слушатель отправки формы, убираю стандартное поведение
-        this._form.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-        });
-
-        this._setEventListeners();
+         this._setEventListeners();
     };
 
     resetErrors() {
